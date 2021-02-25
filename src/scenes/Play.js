@@ -23,6 +23,9 @@ export default class Play extends Scene {
     this.addChild(pinata);
     this.addChild(cactus1, cactus2);
     
+    this.alpha = 0;
+    this.background.alpha = 0;
+
     this._music.once(Music.events.INTRO, () => {
       this.alpha = 0;
       this.background.alpha = 0;

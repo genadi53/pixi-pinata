@@ -2,6 +2,8 @@ import Scene from './Scene';
 import gsap from 'gsap';
 import Footer from '../components/Footer';
 import Music from '../components/Music';
+import Pinata from '../components/Pinata';
+import Cactus from '../components/Cactus';
 
 export default class Play extends Scene {
   async onCreated() {
@@ -13,14 +15,31 @@ export default class Play extends Scene {
     footer.y = window.innerHeight / 2 - footer.height;
     this.addChild(footer);
     
-    this.background.alpha = 0;
-    this.alpha = 0;
+   
+    const pinata = new Pinata();
+    const cactus1 = new Cactus('cactus1', -700, 640, 'cactus-1');
+    const cactus2 = new Cactus('cactus2', 700, 640, 'cactus-2');
 
+    this.addChild(pinata);
+    this.addChild(cactus1, cactus2);
+    
     this._music.once(Music.events.INTRO, () => {
+      this.alpha = 0;
+      this.background.alpha = 0;
+      gsap.to(this.background.scale, { x: 0.8, y: 0.8, duration: 10, yoyo: true, repeat: -1, ease: 'linear.none'});
+      
+    });
+
+    this._music.once(Music.events.START, () => {
       this.alpha = 1;
       this.background.alpha = 1;
-      gsap.to(this.background.scale, { x: 0.8, y: 0.8, duration: 10, yoyo: true, repeat: -1, ease: 'linear.none'});
+      pinata.dance();
+      cactus1.dance();
+      cactus2.dance();
     });
+
+    this._music.on(Music.events.BEAT, () => pinata.createParticle());
+
   }
 
   /**

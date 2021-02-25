@@ -59,8 +59,9 @@ export default class Pinata extends Container{
      */
     dance(){
         const animation = gsap.timeline();
-        animation
-            .to(this._body, { angle: '+=15', yoyo:true, repeat:-1, duration:0.5});
+        animation.fromTo(this._body,
+        {angle: 15, duration:1}, 
+        {angle: -15, duration:1, yoyo:true, repeat:-1, ease:"power2.inOut"});
     }
 
      /**
